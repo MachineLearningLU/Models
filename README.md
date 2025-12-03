@@ -19,6 +19,27 @@ Additional datasets in `data/raw/datasets/` (zipped; unpack with `python scripts
 4. Install deps: `pip install -r requirements.txt`.
 5. (Optional for transformers): `pip install -r requirements-roberta.txt`.
 
+## Running Experiments
+The project uses a modular structure for reproducible experiments.
+
+### Sentiment Classification Models
+- **Bag-of-Words + Naive Bayes**: `python experiments/run_bow.py`
+- **TF-IDF + Logistic Regression**: `python experiments/run_logistic.py`
+
+Both scripts:
+- Load data from `data/raw/sentiment_data.csv`
+- Perform hyperparameter tuning on validation set (60/20/20 split)
+- Evaluate on held-out test set
+- Save results to `results/` directory
+- Print accuracy, classification report, and example predictions
+
+Expected results:
+- BOW: ~66% test accuracy
+- Logistic: ~79% test accuracy
+
+### Custom Experiments
+Modify `experiments/config/` YAML files for different hyperparameter grids, then run the scripts.
+
 
 ## Project Structure
 - `data/`: Raw and processed datasets.

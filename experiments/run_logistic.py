@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Run Logistic Regression experiment.
+Run Logistic Regression experiment with hyperparameter tuning.
 """
 
 import os
@@ -15,12 +15,15 @@ def main():
     results_dir = "results"
     os.makedirs(results_dir, exist_ok=True)
 
-    pipeline, X_test, y_test = train_logistic_model(data_path)
+    # Train with tuning (uses val for hyperparameter selection)
+    pipeline, X_test, y_test = train_logistic_model(data_path, tune=True)
+    
+    # Final evaluation on held-out test set
     y_pred = pipeline.predict(X_test)
     acc, report = compute_metrics(y_test, y_pred)
 
-    print("Accuracy:", acc)
-    print("\nClassification Report:\n", report)
+    print("Final Test Accuracy:", acc)
+    print("\nFinal Test Classification Report:\n", report)
 
     save_results(acc, report, os.path.join(results_dir, "logistic_regression_results.txt"))
 
