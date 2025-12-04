@@ -1,3 +1,10 @@
 # Hyperparameter grid for TF-IDF + Logistic Regression
+# C: Inverse of regularization strength (controls overfitting).
+#   - Lower C (e.g., 0.1): Stronger regularization, simpler model, less overfitting.
+#   - Higher C (e.g., 10.0): Weaker regularization, more complex model, risks overfitting.
+#   - Default: 1.0. Tune based on data size and noise.
+# max_iter: Maximum iterations for solver convergence.
+#   - Increase (e.g., to 2000) if you see convergence warnings.
+#   - Default: 1000. Higher values ensure better fit but take longer.
 C: [0.1, 1.0, 10.0]
 max_iter: [1000, 2000]

@@ -2,6 +2,8 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.pipeline import Pipeline
+import yaml
+import os
 from ..data.load_data import load_csv_with_encodings
 from ..data.preprocess import clean_text
 from ..utils.metrics import compute_metrics
@@ -32,7 +34,9 @@ def train_bow_model(data_path, tune=False, random_state=42):
 
     if tune:
         # Hyperparameter tuning on train, scored on val
-        param_grid = {'alpha': [0.1, 1.0, 10.0]}
+        config_path = os.path.join(os.path.dirname(__file__), '..', '..', 'experiments', 'config', 'bow_config.yaml')
+        with open(config_path, 'r') as f:
+            param_grid = yaml.safe_load(f)
         grid = GridSearchCV(MultinomialNB(), param_grid, cv=3, scoring='accuracy')
         grid.fit(X_train_bow, y_train)
         model = grid.best_estimator_

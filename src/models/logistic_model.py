@@ -5,6 +5,8 @@ from sklearn.pipeline import Pipeline
 from nltk.stem import WordNetLemmatizer
 from nltk.corpus import stopwords
 import nltk
+import yaml
+import os
 from ..data.load_data import load_csv_with_encodings
 from ..data.preprocess import clean_text
 from ..utils.metrics import compute_metrics
@@ -57,7 +59,9 @@ def train_logistic_model(data_path, tune=False, random_state=42):
 
     if tune:
         # Hyperparameter tuning on train, scored on val
-        param_grid = {'C': [0.1, 1.0, 10.0], 'max_iter': [1000, 2000]}
+        config_path = os.path.join(os.path.dirname(__file__), '..', '..', 'experiments', 'config', 'logistic_config.yaml')
+        with open(config_path, 'r') as f:
+            param_grid = yaml.safe_load(f)
         grid = GridSearchCV(LogisticRegression(class_weight='balanced'), param_grid, cv=3, scoring='accuracy')
         pipeline = Pipeline([
             ('tfidf', TfidfVectorizer(max_df=0.9, min_df=3, ngram_range=(1, 2))),

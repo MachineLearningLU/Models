@@ -25,7 +25,7 @@ def main():
     print("Final Test Accuracy:", acc)
     print("\nFinal Test Classification Report:\n", report)
 
-    save_results(acc, report, os.path.join(results_dir, "bag_of_words_results.txt"))
+    save_results(acc, report, os.path.join(results_dir, "bag_of_words_results_expanded_alpha.txt"))
 
 if __name__ == "__main__":
     main()
