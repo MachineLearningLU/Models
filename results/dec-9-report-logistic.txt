@@ -1,0 +1,200 @@
+======================================================================
+TF-IDF + LOGISTIC REGRESSION EXPERIMENT
+======================================================================
+Loading data from ../data/raw/sentiment_data.csv...
+Successfully read CSV with encoding: utf-8
+Dataset shape: (241145, 2)
+Sentiment distribution:
+sentiment
+2    103059
+1     82972
+0     55114
+Name: count, dtype: int64
+
+Applying lemmatization for Logistic Regression...
+Applying lemmatization for Logistic Regression...
+Train set: 144687 samples
+Validation set: 48229 samples
+Test set: 48229 samples
+
+
+Running GridSearchCV with 5-fold cross-validation...
+Total parameter combinations to test: 192
+Fitting 5 folds for each of 192 candidates, totalling 960 fits
+Train set: 144687 samples
+Validation set: 48229 samples
+Test set: 48229 samples
+
+
+Running GridSearchCV with 5-fold cross-validation...
+Total parameter combinations to test: 192
+Fitting 5 folds for each of 192 candidates, totalling 960 fits
+
+Best hyperparameters: {'classifier__C': 1.0, 'classifier__max_iter': 2000, 'classifier__penalty': 'l2', 'classifier__solver': 'saga', 'vectorizer__max_df': 0.95, 'vectorizer__max_features': 25000, 'vectorizer__min_df': 5, 'vectorizer__ngram_range': (1, 1), 'vectorizer__sublinear_tf': True}
+Best cross-validation accuracy: 0.7788
+
+Validation Accuracy: 0.7786
+
+Validation Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.70      0.75      0.73     11023
+           1       0.74      0.81      0.77     16594
+           2       0.86      0.77      0.81     20612
+
+    accuracy                           0.78     48229
+   macro avg       0.77      0.78      0.77     48229
+weighted avg       0.79      0.78      0.78     48229
+
+
+======================================================================
+FINAL TEST SET EVALUATION - TF-IDF + Logistic Regression
+======================================================================
+
+Best hyperparameters: {'classifier__C': 1.0, 'classifier__max_iter': 2000, 'classifier__penalty': 'l2', 'classifier__solver': 'saga', 'vectorizer__max_df': 0.95, 'vectorizer__max_features': 25000, 'vectorizer__min_df': 5, 'vectorizer__ngram_range': (1, 1), 'vectorizer__sublinear_tf': True}
+Best cross-validation accuracy: 0.7788
+
+Validation Accuracy: 0.7786
+
+Validation Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.70      0.75      0.73     11023
+           1       0.74      0.81      0.77     16594
+           2       0.86      0.77      0.81     20612
+
+    accuracy                           0.78     48229
+   macro avg       0.77      0.78      0.77     48229
+weighted avg       0.79      0.78      0.78     48229
+
+
+======================================================================
+FINAL TEST SET EVALUATION - TF-IDF + Logistic Regression
+======================================================================
+
+Final Test Accuracy: 0.7800 (78.00%)
+
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.71      0.75      0.73     11023
+           1       0.74      0.82      0.78     16594
+           2       0.86      0.77      0.81     20612
+
+    accuracy                           0.78     48229
+   macro avg       0.77      0.78      0.77     48229
+weighted avg       0.79      0.78      0.78     48229
+
+
+======================================================================
+DETAILED ANALYSIS - TF-IDF + Logistic Regression
+======================================================================
+
+Confusion Matrix:
+                Predicted
+              Neg  Neu  Pos
+Actual Neg    8253 1677 1093
+       Neu    1604 13534 1456
+       Pos    1782 2999 15831
+
+Per-Class Accuracy:
+Negative  : 0.7487 (74.87%)
+Neutral   : 0.8156 (81.56%)
+Positive  : 0.7680 (76.80%)
+
+======================================================================
+SAMPLE PREDICTIONS - TF-IDF + Logistic Regression
+======================================================================
+Text: 'This is an amazing product, I love it!'
+Predicted: Positive (2)
+
+Text: 'I really hate this, it's the worst thing ever.'
+Predicted: Negative (0)
+
+Text: 'The package arrived today.'
+Predicted: Neutral (1)
+
+Text: 'Absolutely fantastic experience, highly recommend!'
+Predicted: Positive (2)
+
+Text: 'Terrible quality, very disappointed.'
+Predicted: Negative (0)
+
+Text: 'It's okay, nothing special but not bad either.'
+Predicted: Negative (0)
+
+Text: 'Best purchase ever! Worth every penny!'
+Predicted: Positive (2)
+
+Text: 'Complete waste of money, horrible experience.'
+Predicted: Negative (0)
+
+Text: 'The product works as expected.'
+Predicted: Negative (0)
+
+Text: 'Meh, it's alright I guess.'
+Predicted: Neutral (1)
+
+
+Final Test Accuracy: 0.7800 (78.00%)
+
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.71      0.75      0.73     11023
+           1       0.74      0.82      0.78     16594
+           2       0.86      0.77      0.81     20612
+
+    accuracy                           0.78     48229
+   macro avg       0.77      0.78      0.77     48229
+weighted avg       0.79      0.78      0.78     48229
+
+
+======================================================================
+DETAILED ANALYSIS - TF-IDF + Logistic Regression
+======================================================================
+
+Confusion Matrix:
+                Predicted
+              Neg  Neu  Pos
+Actual Neg    8253 1677 1093
+       Neu    1604 13534 1456
+       Pos    1782 2999 15831
+
+Per-Class Accuracy:
+Negative  : 0.7487 (74.87%)
+Neutral   : 0.8156 (81.56%)
+Positive  : 0.7680 (76.80%)
+
+======================================================================
+SAMPLE PREDICTIONS - TF-IDF + Logistic Regression
+======================================================================
+Text: 'This is an amazing product, I love it!'
+Predicted: Positive (2)
+
+Text: 'I really hate this, it's the worst thing ever.'
+Predicted: Negative (0)
+
+Text: 'The package arrived today.'
+Predicted: Neutral (1)
+
+Text: 'Absolutely fantastic experience, highly recommend!'
+Predicted: Positive (2)
+
+Text: 'Terrible quality, very disappointed.'
+Predicted: Negative (0)
+
+Text: 'It's okay, nothing special but not bad either.'
+Predicted: Negative (0)
+
+Text: 'Best purchase ever! Worth every penny!'
+Predicted: Positive (2)
+
+Text: 'Complete waste of money, horrible experience.'
+Predicted: Negative (0)
+
+Text: 'The product works as expected.'
+Predicted: Negative (0)
+
+Text: 'Meh, it's alright I guess.'
+Predicted: Neutral (1)

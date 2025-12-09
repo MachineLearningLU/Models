@@ -1,0 +1,119 @@
+======================================================================
+PRETRAINED MODEL EVALUATION: cardiffnlp/twitter-roberta-base-sentiment
+======================================================================
+
+Loading test data from ../data/raw/sentiment_data.csv...
+Test set size: 48229 samples
+Sentiment distribution:
+sentiment
+2    20612
+1    16594
+0    11023
+Name: count, dtype: int64
+
+Loading cardiffnlp/twitter-roberta-base-sentiment...
+Test set size: 48229 samples
+Sentiment distribution:
+sentiment
+2    20612
+1    16594
+0    11023
+Name: count, dtype: int64
+
+Loading cardiffnlp/twitter-roberta-base-sentiment...
+Device set to use cpu
+Model loaded successfully!
+
+Running inference on test set...
+This may take 10-15 minutes depending on your hardware...
+Processed 0/48229 samples...
+Processed 4000/48229 samples...
+Processed 4000/48229 samples...
+Processed 8000/48229 samples...
+Processed 8000/48229 samples...
+Processed 12000/48229 samples...
+Processed 12000/48229 samples...
+Processed 16000/48229 samples...
+Processed 16000/48229 samples...
+Processed 20000/48229 samples...
+Processed 20000/48229 samples...
+Processed 24000/48229 samples...
+Processed 24000/48229 samples...
+Processed 28000/48229 samples...
+Processed 28000/48229 samples...
+Processed 32000/48229 samples...
+Processed 32000/48229 samples...
+Processed 36000/48229 samples...
+Processed 36000/48229 samples...
+Processed 40000/48229 samples...
+Processed 40000/48229 samples...
+Processed 44000/48229 samples...
+Processed 44000/48229 samples...
+Processed 48000/48229 samples...
+Processed 48000/48229 samples...
+Completed! Processed 48229 samples.
+
+======================================================================
+ROBERTA TEST SET RESULTS
+======================================================================
+
+Test Accuracy: 0.5460 (54.60%)
+
+Classification Report:
+              precision    recall  f1-score   support
+
+    Negative       0.50      0.57      0.53     11023
+     Neutral       0.47      0.75      0.58     16594
+    Positive       0.82      0.37      0.51     20612
+
+    accuracy                           0.55     48229
+   macro avg       0.60      0.56      0.54     48229
+weighted avg       0.63      0.55      0.54     48229
+
+
+Confusion Matrix:
+                Predicted
+              Neg  Neu  Pos
+Actual Neg    6266 4363  394
+       Neu    2931 12420 1243
+       Pos    3232 9732 7648
+
+Per-Class Accuracy:
+Negative  : 0.5684 (56.84%)
+Neutral   : 0.7485 (74.85%)
+Positive  : 0.3710 (37.10%)
+
+======================================================================
+Completed! Processed 48229 samples.
+
+======================================================================
+ROBERTA TEST SET RESULTS
+======================================================================
+
+Test Accuracy: 0.5460 (54.60%)
+
+Classification Report:
+              precision    recall  f1-score   support
+
+    Negative       0.50      0.57      0.53     11023
+     Neutral       0.47      0.75      0.58     16594
+    Positive       0.82      0.37      0.51     20612
+
+    accuracy                           0.55     48229
+   macro avg       0.60      0.56      0.54     48229
+weighted avg       0.63      0.55      0.54     48229
+
+
+Confusion Matrix:
+                Predicted
+              Neg  Neu  Pos
+Actual Neg    6266 4363  394
+       Neu    2931 12420 1243
+       Pos    3232 9732 7648
+
+Per-Class Accuracy:
+Negative  : 0.5684 (56.84%)
+Neutral   : 0.7485 (74.85%)
+Positive  : 0.3710 (37.10%)
+
+======================================================================
