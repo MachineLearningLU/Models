@@ -22,10 +22,13 @@ def main():
     y_pred = pipeline.predict(X_test)
     acc, report = compute_metrics(y_test, y_pred)
 
-    print("Final Test Accuracy:", acc)
+    print("\\n" + "="*60)
+    print("FINAL TEST SET EVALUATION")
+    print("="*60)
+    print(f"Final Test Accuracy: {acc:.4f}")
     print("\nFinal Test Classification Report:\n", report)
 
-    save_results(acc, report, os.path.join(results_dir, "logistic_regression_results.txt"))
+    save_results(acc, report, os.path.join(results_dir, "logistic_regression_results_comprehensive.txt"))
 
     # Example predictions
     test_texts = [

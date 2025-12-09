@@ -1,5 +1,5 @@
 from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.model_selection import train_test_split, GridSearchCV
+from sklearn.model_selection import train_test_split, GridSearchCV, RandomizedSearchCV
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.pipeline import Pipeline
 import yaml
@@ -8,11 +8,20 @@ from ..data.load_data import load_csv_with_encodings
 from ..data.preprocess import clean_text
 from ..utils.metrics import compute_metrics
 
-def train_bow_model(data_path, tune=False, random_state=42):
+def train_bow_model(data_path, tune=False, random_state=42, use_random_search=False, n_iter=50):
     """
     Train Bag-of-Words + Naive Bayes model with optional hyperparameter tuning.
     Uses 60/20/20 train/val/test split. If tune=True, tunes on val and returns best model.
-    Returns trained model, X_test, y_test, vectorizer.
+    
+    Args:
+        data_path: Path to the CSV data file
+        tune: Whether to perform hyperparameter tuning
+        random_state: Random seed for reproducibility
+        use_random_search: If True, use RandomizedSearchCV instead of GridSearchCV
+        n_iter: Number of iterations for RandomizedSearchCV (ignored if use_random_search=False)
+    
+    Returns:
+        Trained pipeline, X_test, y_test
     """
     df = load_csv_with_encodings(data_path)
     df["text"] = df["text"].fillna("")
@@ -27,27 +36,52 @@ def train_bow_model(data_path, tune=False, random_state=42):
         X_temp, y_temp, test_size=0.25, random_state=random_state, stratify=y_temp  # 0.25 of 80% = 20%
     )
 
-    vectorizer = CountVectorizer(stop_words="english")
-    X_train_bow = vectorizer.fit_transform(X_train)
-    X_val_bow = vectorizer.transform(X_val)
-    X_test_bow = vectorizer.transform(X_test)
-
     if tune:
-        # Hyperparameter tuning on train, scored on val
+        # Hyperparameter tuning using pipeline-level grid search
         config_path = os.path.join(os.path.dirname(__file__), '..', '..', 'experiments', 'config', 'bow_config.yaml')
         with open(config_path, 'r') as f:
-            param_grid = yaml.safe_load(f)
-        grid = GridSearchCV(MultinomialNB(), param_grid, cv=3, scoring='accuracy')
-        grid.fit(X_train_bow, y_train)
-        model = grid.best_estimator_
-        print(f"Best val params: {grid.best_params_}")
+            config = yaml.safe_load(f)
+        
+        # Extract cv_folds from config, default to 5
+        cv_folds = config.pop('cv_folds', 5)
+        
+        # Create pipeline
+        pipeline = Pipeline([
+            ('vectorizer', CountVectorizer(stop_words='english')),
+            ('classifier', MultinomialNB())
+        ])
+        
+        # Choose search method
+        if use_random_search:
+            search = RandomizedSearchCV(
+                pipeline, config, n_iter=n_iter, cv=cv_folds, 
+                scoring='accuracy', random_state=random_state, n_jobs=-1, verbose=1
+            )
+            print(f"Using RandomizedSearchCV with {n_iter} iterations and {cv_folds}-fold CV")
+        else:
+            search = GridSearchCV(
+                pipeline, config, cv=cv_folds, 
+                scoring='accuracy', n_jobs=-1, verbose=1
+            )
+            print(f"Using GridSearchCV with {cv_folds}-fold CV")
+        
+        search.fit(X_train, y_train)
+        model = search.best_estimator_
+        
+        print(f"\nBest parameters: {search.best_params_}")
+        print(f"Best cross-validation score: {search.best_score_:.4f}")
+        
         # Evaluate on val for development
-        y_val_pred = model.predict(X_val_bow)
+        y_val_pred = model.predict(X_val)
         val_acc, val_report = compute_metrics(y_val, y_val_pred)
-        print(f"Validation Accuracy: {val_acc}")
+        print(f"Validation Accuracy: {val_acc:.4f}")
         print("Validation Report:\n", val_report)
     else:
-        model = MultinomialNB()
-        model.fit(X_train_bow, y_train)
+        # Default pipeline without tuning
+        model = Pipeline([
+            ('vectorizer', CountVectorizer(stop_words='english')),
+            ('classifier', MultinomialNB())
+        ])
+        model.fit(X_train, y_train)
 
-    return model, X_test_bow, y_test, vectorizer
+    return model, X_test, y_test

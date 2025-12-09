@@ -1,6 +1,34 @@
 # Hyperparameter grid for Bag-of-Words + Multinomial Naive Bayes
-# alpha: Smoothing parameter (Laplace smoothing) for MultinomialNB.
-#   - Lower values (e.g., 0.01): Less smoothing, model fits data closely but risks overfitting.
+# This config supports pipeline-level grid search across both vectorizer and classifier
+
+# CountVectorizer parameters:
+# max_features: Maximum number of features (vocabulary size). None means unlimited.
+#   - Lower values (e.g., 5000): Faster, less memory, may miss important words.
+#   - Higher values (e.g., 20000): More comprehensive but slower.
+vectorizer__max_features: [5000, 10000, 15000, null]
+
+# ngram_range: Range of n-grams to extract (unigrams, bigrams, etc.).
+#   - (1, 1): Only unigrams (single words).
+#   - (1, 2): Unigrams + bigrams (captures phrases like "not good").
+#   - (1, 3): Unigrams + bigrams + trigrams (more context but slower).
+vectorizer__ngram_range: [[1, 1], [1, 2], [1, 3]]
+
+# min_df: Minimum document frequency (ignore rare words).
+#   - Integer: Absolute count (e.g., 2 = word must appear in at least 2 docs).
+#   - Float: Proportion (e.g., 0.01 = 1% of documents).
+vectorizer__min_df: [1, 2, 5]
+
+# max_df: Maximum document frequency (ignore common words).
+#   - Float: Proportion (e.g., 0.9 = ignore words in >90% of docs).
+#   - Helps filter stop words not in stop_words list.
+vectorizer__max_df: [0.8, 0.9, 1.0]
+
+# MultinomialNB parameters:
+# alpha: Smoothing parameter (Laplace smoothing).
+#   - Lower values (e.g., 0.01): Less smoothing, fits data closely but risks overfitting.
 #   - Higher values (e.g., 10.0): More smoothing, prevents overfitting but may underfit.
-#   - Default: 1.0. Tune to balance precision and generalization.
-alpha: [0.01, 0.05, 0.1, 0.5, 1.0, 2.0, 5.0, 10.0]
+#   - Default: 1.0.
+classifier__alpha: [0.01, 0.1, 0.5, 1.0, 5.0, 10.0]
+
+# Cross-validation folds (applies to GridSearchCV)
+cv_folds: 5
